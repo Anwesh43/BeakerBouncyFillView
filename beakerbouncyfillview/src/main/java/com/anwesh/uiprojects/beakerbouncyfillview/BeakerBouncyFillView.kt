@@ -211,4 +211,13 @@ class BeakerBouncyFillView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    companion object {
+
+        fun create(activity : Activity) : BeakerBouncyFillView {
+            val view : BeakerBouncyFillView = BeakerBouncyFillView(activity)
+            activity.setContentView(view)
+            return view
+        }
+    }
 }
