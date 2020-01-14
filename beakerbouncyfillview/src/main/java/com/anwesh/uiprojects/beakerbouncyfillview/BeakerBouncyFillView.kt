@@ -109,15 +109,10 @@ class BeakerBouncyFillView(ctx : Context) : View(ctx) {
             }
         }
 
-        fun start(cb : () -> Unit) {
-            if (animated) {
-                cb()
-                try {
-                    Thread.sleep(delay)
-                    view.invalidate()
-                } catch(ex : Exception) {
-
-                }
+        fun start() {
+            if (!animated) {
+                animated = true
+                view.postInvalidate()
             }
         }
 
@@ -191,6 +186,28 @@ class BeakerBouncyFillView(ctx : Context) : View(ctx) {
 
         fun startUpdating(cb : () -> Unit) {
             curr.startUpdating(cb)
+        }
+    }
+
+    data class Renderer(var view : BeakerBouncyFillView) {
+
+        private val animator : Animator = Animator(view)
+        private val bbf : BeakerBouncyFill = BeakerBouncyFill(0)
+
+        fun render(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(backColor)
+            bbf.draw(canvas, paint)
+            animator.animate {
+                bbf.update {
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            bbf.startUpdating {
+                animator.start()
+            }
         }
     }
 }
