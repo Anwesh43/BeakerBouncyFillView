@@ -31,6 +31,7 @@ fun Canvas.drawBeakerBouncyFill(scale : Float, size : Float, paint : Paint) {
     val sf : Float = scale.sinify()
     val sc1 : Float = sf.divideScale(0, 2)
     val sc2 : Float = sf.divideScale(1, 2)
+    drawLine(-size, size, size, size, paint)
     for (j in 0..(lines - 1)) {
         save()
         translate(-size * (1f - 2 * j), size)
