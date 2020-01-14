@@ -169,4 +169,28 @@ class BeakerBouncyFillView(ctx : Context) : View(ctx) {
             return this
         }
     }
+
+    data class BeakerBouncyFill(var i : Int) {
+
+        private val root : BBFNode = BBFNode(0)
+        private var dir : Int = 1
+        private var curr : BBFNode = root
+
+        fun draw(canvas : Canvas, paint : Paint) {
+            root.draw(canvas, paint)
+        }
+
+        fun update(cb : (Float) -> Unit) {
+            curr.update {
+                curr = curr.getNext(dir) {
+                    dir *= -1
+                }
+                cb(it)
+            }
+        }
+
+        fun startUpdating(cb : () -> Unit) {
+            curr.startUpdating(cb)
+        }
+    }
 }
